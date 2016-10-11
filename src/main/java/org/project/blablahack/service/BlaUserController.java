@@ -1,5 +1,6 @@
-package org.project.blablahack;
+package org.project.blablahack.service;
 
+import org.project.blablahack.model.BlaUser;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

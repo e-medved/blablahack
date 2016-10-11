@@ -1,4 +1,4 @@
-package org.project.blablahack;
+package org.project.blablahack.model;
 
 
 public class BlaUser {
