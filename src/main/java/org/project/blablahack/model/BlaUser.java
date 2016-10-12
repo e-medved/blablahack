@@ -1,7 +1,11 @@
 package org.project.blablahack.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+@Document(collection = "users")
 public class BlaUser {
+  @Id
   private String balHash;
   private String phone;
 
