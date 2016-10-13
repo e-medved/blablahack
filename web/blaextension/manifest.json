@@ -1,0 +1,30 @@
+{
+  "name": "BlaEx",
+  "description": "Shows some of the features of the Context Menus API",
+  "version": "0.6",
+  "permissions": [
+                  "activeTab",
+                  "tabs",
+                  "notifications",
+                  "storage",
+                  "https://www.blablacar.ru/dashboard/*"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["https://www.blablacar.ru/dashboard/trip-offer/*/passengers", "https://www.blablacar.ru/poezdka*"],
+      "js": ["lib/jquery-1.12.2.min.js", "content_script.js"],
+      "run_at": "document_end"
+    }
+  ],
+
+  // основной скрипт ??
+  "background": { "scripts": [ "background.js" ]},
+  // открывающееся в браузере информационное поле (справа вверху)
+  "browser_action":{
+    "default_title": "BLA",
+    "default_icon": "images/money.png",
+    "default_popup":"popup.html" // имя страницы фильтра
+  },
+  "manifest_version": 2
+}
