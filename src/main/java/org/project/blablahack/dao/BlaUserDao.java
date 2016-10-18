@@ -8,6 +8,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class BlaUserDao {
   @Autowired
@@ -15,6 +17,10 @@ public class BlaUserDao {
 
   public void save(BlaUser user){
     mongoOperations.save(user);
+  }
+
+  public void save(List<BlaUser> users){
+    mongoOperations.save(users);
   }
 
   public BlaUser get(String userHash) {
