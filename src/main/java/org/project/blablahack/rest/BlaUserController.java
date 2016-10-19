@@ -16,13 +16,16 @@ public class BlaUserController {
   @Autowired
   BlaUserService userService;
 
-  @RequestMapping("/")
+  @RequestMapping("/users/")
   public ResponseEntity<BlaUser> getUserByHash(@RequestParam(value = "hash", defaultValue = "") String blaHash){
     BlaUser user = userService.get(blaHash);
-    return new ResponseEntity<BlaUser>(user, HttpStatus.OK);
+    if (user != null)
+      return new ResponseEntity<BlaUser>(user, HttpStatus.OK);
+    else
+      return new ResponseEntity<BlaUser>(HttpStatus.NOT_FOUND);
   }
 
-  @RequestMapping(value = "/user", method = RequestMethod.POST)
+  @RequestMapping(value = "/users", method = RequestMethod.POST)
   public ResponseEntity<BlaUser> saveBlaUsers(@RequestBody BlaUser user){
     userService.save(user);
 
