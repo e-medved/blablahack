@@ -3,62 +3,85 @@
 //https://www.blablacar.ru/dashboard/trip-offers/inactive
 
 
-var data;
+var driverData;
+var passengersData;
 users = [];
 
-function fillPassengers() {
+function fillData() {
 
-    var url = window.location.pathname;
-    var tripId, blaUserHash, phone;
+  var url = window.location.pathname;
+  var tripId, blaUserHash, phone;
 
-    //поиск на странице актуальной поездки (не совершенная на данный момент)
-    if (url.indexOf('poezdka') !== -1){
-        tripId = url.split('-').slice(-1)[0];
+  //поиск на странице актуальной поездки (не совершенная на данный момент)
+  if (url.indexOf('poezdka') !== -1) {
+    tripId = url.split('-').slice(-1)[0];
 
-        $('align-center.u-lightestGreen-bg.cell-separator').foreach(function () {
-            blaUserHash = $(this).find('a').attr('href');
-            phone = $(this).find('.phone').text();
+    $('align-center.u-lightestGreen-bg.cell-separator').each(function () {
+      blaUserHash = $(this).find('a').attr('href');
+      phone = $(this).find('.phone').text();
 
-            addUser(blaUserHash, phone);
-        });
-    }
+      addUser(blaUserHash, phone);
+    });
 
-    //поиск на странице прошедшей поездки (совершенная в недалеком прошлом)
-    if (url.indexOf('trip-offer') !== -1){
-        tripId = url.split( '/' )[2];
+    //поиск id водителя
+    getDriverID();
+  }
 
-        $("div.col-50.u-left").each(function () {
-            blaUserHash = $(this).find(".picture").attr('href');
-            phone = $(this).find(".mobile").text();
+  //поиск на странице прошедшей поездки (совершенная в недалеком прошлом)
+  if (url.indexOf('trip-offer') !== -1) {
+    tripId = url.split('/')[2];
 
-            addUser(blaUserHash, phone);
-        });
-    }
+    $("div.col-50.u-left").each(function () {
+      blaUserHash = $(this).find(".picture").attr('href');
+      phone = $(this).find(".mobile").text();
 
-    data = {
-        action: "sendUsers",
-        trip: tripId,
-        passengers: users
-    }
+      addUser(blaUserHash, phone);
+    });
+  }
+
+  if (users.length > 0)
+    passengersData = {
+      action: "sendUsers",
+      trip: tripId,
+      passengers: users
+    };
 }
 
 function addUser(userHash, phone) {
-    if (userHash && phone){
-        if (user.every(function(val){
-            return val.blahash+"|"+val.phone !== userHash+"|"+phone;
-        })){
-            user = {
-                'blahash': blaUserHash,
-                'phone': phone
-            };
-            users.push(user);
-        }
+  if (userHash && phone) {
+    if (user.every(function (val) {
+        return val.blahash + "|" + val.phone !== userHash + "|" + phone;
+      })) {
+      user = {
+        'blahash': blaUserHash,
+        'phone': phone
+      };
+      users.push(user);
     }
+  }
+}
+
+function getDriverID() {
+  var driverUrl = $('ProfileCard-info.ProfileCard-info--name.u-truncate').find('a').attr('href');
+  var driverHash = driverUrl.split('/').slice(-1)[0];
+
+  if (driverHash)
+    driverData = {
+      action: "getUser",
+      userID: driverHash
+    };
 }
 
 
-fillPassengers();
+fillData();
 
-chrome.runtime.sendMessage(data, function(response) {
+
+if (passengersData)
+  chrome.runtime.sendMessage(passengersData, function (response) {
     console.log("sended to server");
-});
+  });
+
+if (driverData)
+  chrome.runtime.sendMessage(driverData, function (response) {
+    console.log("sended to server");
+  });

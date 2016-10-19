@@ -3,6 +3,8 @@
 chrome.runtime.onMessage.addListener(function(message,sender,sendResponse){
     if (message.action == "sendUsers")
         sendUsers(message);
+    if (message.action == "getUser")
+        getUserFromServerByHash(message.userID);
 });
 
 var baseServiceUrl = "http://127.0.0.1:8080/";
@@ -18,7 +20,6 @@ function sendUsers(message){
 }
 
 function getUserFromServerByHash(hashID){
-
     $.ajax({
         url: baseServiceUrl + "users/" + hashID,
         type: 'get',
