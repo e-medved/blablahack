@@ -7,7 +7,8 @@
                   "tabs",
                   "notifications",
                   "storage",
-                  "https://www.blablacar.ru/dashboard/*"
+                  "https://www.blablacar.ru/dashboard/*",
+                  "http://127.0.0.1:8080/*"
   ],
 
   "content_scripts": [
@@ -19,7 +20,7 @@
   ],
 
   // основной скрипт ??
-  "background": { "scripts": [ "background.js" ]},
+  "background": { "scripts": [ "background.js", "lib/jquery-1.12.2.min.js" ]},
   // открывающееся в браузере информационное поле (справа вверху)
   "browser_action":{
     "default_title": "BLA",

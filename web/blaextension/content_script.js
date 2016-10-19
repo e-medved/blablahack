@@ -62,7 +62,7 @@ function addUser(userHash, phone) {
 }
 
 function getDriverID() {
-  var driverUrl = $('ProfileCard-info.ProfileCard-info--name.u-truncate').find('a').attr('href');
+  var driverUrl = $('.ProfileCard').find('a').first().attr('href');
   var driverHash = driverUrl.split('/').slice(-1)[0];
 
   if (driverHash)
