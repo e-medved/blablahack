@@ -28,15 +28,16 @@ public class BlaUserController {
       return new ResponseEntity<BlaUser>(user, HttpStatus.OK);
     }
     else {
-      log.info("User with ID: " + blaHash + "not found");
+      log.info("User with ID: " + blaHash + " not found");
       return new ResponseEntity<BlaUser>(HttpStatus.NOT_FOUND);
     }
   }
 
-  @RequestMapping(value = "/users", method = RequestMethod.POST)
-  public ResponseEntity<List<BlaUser>> saveBlaUsers(@RequestBody List<BlaUser> users){
+  @PostMapping(value = "/users")
+  public ResponseEntity<BlaUser> saveBlaUsers(@RequestBody BlaUser users){
     userService.save(users);
 
+    log.info("User with ID: " + users.getBlaHash() + " saved success");
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 }
