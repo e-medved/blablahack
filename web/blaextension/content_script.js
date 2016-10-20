@@ -17,7 +17,7 @@ function fillData() {
     tripId = url.split('-').slice(-1)[0];
 
     $('.align-center.u-lightestGreen-bg.cell-separator').each(function () {
-      blaUserHash = $(this).find('a').attr('href');
+      blaUserHash = $(this).find('a').attr('href').split('/').slice(-1)[0];
       phone = $(this).find('.phone').text();
 
       addUser(blaUserHash, phone);
@@ -31,8 +31,9 @@ function fillData() {
   if (url.indexOf('trip-offer') !== -1) {
     tripId = url.split('/')[2];
 
+    //todo slice refactor
     $('.div.col-50.u-left').each(function () {
-      blaUserHash = $(this).find(".picture").attr('href');
+      blaUserHash = $(this).find(".picture").attr('href').split('/').slice(-1)[0];
       phone = $(this).find(".mobile").text();
 
       addUser(blaUserHash, phone);
@@ -49,11 +50,11 @@ function fillData() {
 
 function addUser(userHash, phone) {
   if (userHash && phone) {
-    if (user.every(function (val) {
+    if (users.every(function (val) {
         return val.blahash + "|" + val.phone !== userHash + "|" + phone;
       })) {
       user = {
-        'blahash': blaUserHash,
+        'blaHash': userHash,
         'phone': phone
       };
       users.push(user);
