@@ -6,16 +6,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "users")
 public class BlaUser {
   @Id
-  private String balHash;
+  private String blaHash;
   private String phone;
 
-  public BlaUser(String balHash, String phone) {
-    this.balHash = balHash;
+  public BlaUser(String blaHash, String phone) {
+    this.blaHash = blaHash;
     this.phone = phone;
   }
 
-  public String getBalHash() {
-    return balHash;
+  public BlaUser(){}
+
+  public String getBlaHash() {
+    return blaHash;
   }
 
   public String getPhone() {
