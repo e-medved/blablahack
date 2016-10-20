@@ -16,7 +16,7 @@ function fillData() {
   if (url.indexOf('poezdka') !== -1) {
     tripId = url.split('-').slice(-1)[0];
 
-    $('align-center.u-lightestGreen-bg.cell-separator').each(function () {
+    $('.align-center.u-lightestGreen-bg.cell-separator').each(function () {
       blaUserHash = $(this).find('a').attr('href');
       phone = $(this).find('.phone').text();
 
@@ -31,7 +31,7 @@ function fillData() {
   if (url.indexOf('trip-offer') !== -1) {
     tripId = url.split('/')[2];
 
-    $("div.col-50.u-left").each(function () {
+    $('.div.col-50.u-left').each(function () {
       blaUserHash = $(this).find(".picture").attr('href');
       phone = $(this).find(".mobile").text();
 
