@@ -32,8 +32,10 @@ function fillData() {
     tripId = url.split('/')[2];
 
     //todo slice refactor
-    $('.div.col-50.u-left').each(function () {
-      blaUserHash = $(this).find(".picture").attr('href').split('/').slice(-1)[0];
+    $('.col-50.u-left').each(function () {
+      if (!$(this).find('.picture').attr('href'))
+        return true;
+      blaUserHash = $(this).find('.picture').attr('href').split('/').slice(-1)[0];
       phone = $(this).find(".mobile").text();
 
       addUser(blaUserHash, phone);
