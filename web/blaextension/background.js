@@ -13,7 +13,7 @@ function sendUsers(message){
     $.ajax({
         url: baseServiceUrl + "users",
         type: 'post',
-        data: JSON.stringify(message.passengers[0]),
+        data: JSON.stringify({users: message.passengers}),
         contentType: 'application/json',
         dataType: 'json'
     });

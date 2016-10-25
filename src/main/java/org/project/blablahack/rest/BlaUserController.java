@@ -2,6 +2,7 @@ package org.project.blablahack.rest;
 
 import org.apache.log4j.Logger;
 import org.project.blablahack.model.BlaUser;
+import org.project.blablahack.model.BlaUserContainer;
 import org.project.blablahack.service.BlaUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,10 +35,14 @@ public class BlaUserController {
   }
 
   @PostMapping(value = "/users")
-  public ResponseEntity<BlaUser> saveBlaUsers(@RequestBody BlaUser users){
-    userService.save(users);
+  public ResponseEntity<BlaUserContainer> saveBlaUsers(@RequestBody BlaUserContainer users){
 
-    log.info("User with ID: " + users.getBlaHash() + " saved success");
+    if (users == null && users.getUsers() != null)
+      new ResponseEntity<>(users, HttpStatus.BAD_REQUEST);
+
+    users.getUsers().forEach(u -> userService.save(u));
+
+    log.info("Users saved succesfully");
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 }
