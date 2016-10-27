@@ -10,36 +10,21 @@ users = [];
 function fillData() {
 
   var url = window.location.pathname;
-  var tripId, blaUserHash, phone;
+  var previousURL = document.referrer;
+  var tripId;
 
   //поиск на странице актуальной поездки (не совершенная на данный момент)
   if (url.indexOf('poezdka') !== -1) {
-    tripId = url.split('-').slice(-1)[0];
-
-    $('.align-center.u-lightestGreen-bg.cell-separator').each(function () {
-      blaUserHash = $(this).find('a').attr('href').split('/').slice(-1)[0];
-      phone = $(this).find('.phone').text();
-
-      addUser(blaUserHash, phone);
-    });
+    searchInActualTrip();
 
     //поиск id водителя
-    getDriverID();
+    if (previousURL.indexOf('poisk-poputchikov') !== -1)
+      getDriverID();
   }
 
   //поиск на странице прошедшей поездки (совершенная в недалеком прошлом)
   if (url.indexOf('trip-offer') !== -1) {
-    tripId = url.split('/')[2];
-
-    //todo slice refactor
-    $('.col-50.u-left').each(function () {
-      if (!$(this).find('.picture').attr('href'))
-        return true;
-      blaUserHash = $(this).find('.picture').attr('href').split('/').slice(-1)[0];
-      phone = $(this).find(".mobile").text();
-
-      addUser(blaUserHash, phone);
-    });
+    searchInPastTrip();
   }
 
   if (users.length > 0)
@@ -64,9 +49,28 @@ function addUser(userHash, phone) {
   }
 }
 
+function searchInActualTrip(){
+  $('.align-center.u-lightestGreen-bg.cell-separator').each(function () {
+    blaUserHash = getUserIDFromUrl($(this).find('a').attr('href'));
+    phone = $(this).find('.phone').text();
+
+    addUser(blaUserHash, phone);
+  });
+}
+
+function searchInPastTrip(){
+  $('.col-50.u-left').each(function () {
+    if (!$(this).find('.picture').attr('href'))
+      return true;
+    blaUserHash = getUserIDFromUrl($(this).find('.picture').attr('href'));
+    phone = $(this).find(".mobile").text();
+
+    addUser(blaUserHash, phone);
+  });
+}
+
 function getDriverID() {
-  var driverUrl = $('.ProfileCard').find('a').first().attr('href');
-  var driverHash = driverUrl.split('/').slice(-1)[0];
+  var driverHash = getUserIDFromUrl($('.ProfileCard').find('a').first().attr('href'));
 
   if (driverHash)
     driverData = {
@@ -75,6 +79,9 @@ function getDriverID() {
     };
 }
 
+function getUserIDFromUrl(url){
+  return url.split('/').slice(-1)[0];
+}
 
 fillData();
 
