@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 
 @RestController
@@ -35,14 +35,14 @@ public class BlaUserController {
   }
 
   @PostMapping(value = "/users")
-  public ResponseEntity<BlaUserContainer> saveBlaUsers(@RequestBody BlaUserContainer users){
+  public ResponseEntity<BlaUserContainer> saveBlaUsers(@RequestBody BlaUserContainer users, HttpServletRequest request){
 
     if (users == null && users.getUsers() != null)
       new ResponseEntity<>(users, HttpStatus.BAD_REQUEST);
 
     users.getUsers().forEach(u -> userService.save(u));
 
-    log.info("Users saved succesfully");
+    log.info("Users saved succesfully [" + users.getUsers().size() + "] from: " + request.getRemoteAddr());
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 }
