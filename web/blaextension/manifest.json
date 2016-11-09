@@ -15,6 +15,7 @@
     {
       "matches": ["https://www.blablacar.ru/dashboard/trip-offer/*/passengers", "https://www.blablacar.ru/poezdka*"],
       "js": ["lib/jquery-1.12.2.min.js", "content_script.js"],
+      "css": ["/css/style.css"],
       "run_at": "document_end"
     }
   ],
