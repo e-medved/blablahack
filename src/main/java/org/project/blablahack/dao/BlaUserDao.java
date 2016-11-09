@@ -24,11 +24,11 @@ public class BlaUserDao {
   }
 
   public BlaUser get(String userHash) {
-    return mongoOperations.findOne(Query.query(Criteria.where("balHash").is(userHash)), BlaUser.class);
+    return mongoOperations.findOne(Query.query(Criteria.where("blaHash").is(userHash)), BlaUser.class);
   }
 
   public void remove(String userHash) {
-    mongoOperations.remove(Query.query(Criteria.where("balHash").is(userHash)), BlaUser.class);
+    mongoOperations.remove(Query.query(Criteria.where("blaHash").is(userHash)), BlaUser.class);
   }
 
 
