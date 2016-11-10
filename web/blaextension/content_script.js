@@ -4,7 +4,7 @@
 
 
 var driverData;
-var passengersData;
+var usersData;
 users = [];
 
 function fillData() {
@@ -27,8 +27,13 @@ function fillData() {
     searchInPastTrip();
   }
 
+  //поиск на странице бронирования
+  if (url.indexOf('manage-my-booking') !== -1){
+    searchInBookingPage();
+  }
+
   if (users.length > 0)
-    passengersData = {
+    usersData = {
       action: "sendUsers",
       trip: tripId,
       passengers: users
@@ -69,6 +74,13 @@ function searchInPastTrip(){
   });
 }
 
+function searchInBookingPage() {
+  var driverHash = getUserIDFromUrl($('.driver-info').find('a').first().attr('href'));
+  var phone = $('.driver-info').find('.phone').first().text();
+
+  addUser(driverHash, phone);
+}
+
 function getDriverID() {
   var driverHash = getUserIDFromUrl($('.ProfileCard').find('a').first().attr('href'));
 
@@ -86,12 +98,19 @@ function getUserIDFromUrl(url){
 fillData();
 
 
-if (passengersData)
-  chrome.runtime.sendMessage(passengersData, function (response) {
+if (usersData)
+  chrome.runtime.sendMessage(usersData, function (response) {
     console.log("sended to server");
   });
 
 if (driverData)
-  chrome.runtime.sendMessage(driverData, function (response) {
-    console.log("sended to server");
+  getDriverPhone();
+
+function getDriverPhone() {
+  var baseServiceUrl = "http://127.0.0.1:8080";
+  var apiUrl = baseServiceUrl + '/users?id=' + driverData.userID;
+
+  $.get(apiUrl, function (html) {
+    $('body').append(html)
   });
+}
