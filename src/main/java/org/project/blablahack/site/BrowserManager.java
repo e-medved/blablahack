@@ -6,4 +6,7 @@ package org.project.blablahack.site;
  * observ new BlaUser comes from `oAuth` and go to site(to profile) with Browser
  */
 public class BrowserManager {
+
+  //todo by config select policy to browse
+
 }
